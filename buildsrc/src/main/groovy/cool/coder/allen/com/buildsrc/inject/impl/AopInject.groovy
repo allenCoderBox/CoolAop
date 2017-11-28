@@ -33,6 +33,7 @@ public class AopInject extends StubInject {
             c.addMethod(newMethod)
             backPresed.setBody(getProxyMethodBody(methodName))
         }
+
         writeFile(c, path)
     }
 
@@ -43,6 +44,10 @@ public class AopInject extends StubInject {
         body.append(".excute(); ")
         return body.toString();
     }
+
+
+
+
 
     @Override
     public void importClass() {
