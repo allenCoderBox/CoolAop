@@ -1,4 +1,4 @@
-package cool.coder.allen.com.buildsrc.utils
+package cool.coder.allen.com.buildsrc.core.utils
 
 import java.util.jar.JarEntry
 import java.util.jar.JarFile

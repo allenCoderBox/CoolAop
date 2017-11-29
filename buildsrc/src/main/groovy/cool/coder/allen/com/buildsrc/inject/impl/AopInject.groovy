@@ -13,7 +13,7 @@ import javassist.CtNewMethod
 public class AopInject extends StubInject {
 
 
-    private String packageName = "com";
+
 
     @Override
     public void injectClass(CtClass c, String filePath, String path) {
@@ -22,6 +22,12 @@ public class AopInject extends StubInject {
             return
         }
         if (c.name.contains("OnCreateWrapper")) {
+
+
+
+
+
+
             return
         }
         CtMethod[] backPreseds = c.getDeclaredMethods("onBackPressed")
