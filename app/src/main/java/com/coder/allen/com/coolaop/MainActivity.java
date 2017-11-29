@@ -9,6 +9,18 @@ import cool.coder.allen.com.coolaop.R;
 public class MainActivity extends AppCompatActivity {
 
 
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public MainActivity setName(String name) {
+        this.name = name;
+        return this;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
