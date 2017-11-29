@@ -22,12 +22,6 @@ public class AopInject extends StubInject {
             return
         }
         if (c.name.contains("OnCreateWrapper")) {
-
-
-
-
-
-
             return
         }
         CtMethod[] backPreseds = c.getDeclaredMethods("onBackPressed")
