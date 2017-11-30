@@ -1,7 +1,11 @@
 package bg.coder.allen.com.aopcomprecess;
 
+import com.alibaba.fastjson.JSON;
 import com.google.auto.service.AutoService;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -13,13 +17,20 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 
 import bg.coder.allen.com.aopanimation.AopAction;
 import bg.coder.allen.com.aopanimation.PointCut;
+import bg.coder.allen.com.aopanimation.PointCutParams;
+import bg.coder.allen.com.aopanimation.core.LibsClient;
+import bg.coder.allen.com.aopanimation.core.SystemConfig;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * 作者：husongzhen on 17/9/30 10:17
@@ -44,26 +55,44 @@ public class CHttpCompiler extends AbstractProcessor {
 
 
     @Override
-    public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        for (Element element : roundEnvironment.getElementsAnnotatedWith(PointCut.class)) {
-            PointCut pointCut = element.getAnnotation(PointCut.class);
-            Class[] classes = pointCut.imports();
-            AopAction action = pointCut.action();
-            String a = pointCut.point();
-            error(element, a);
-        }
-        return false;
-    }
+    public boolean process(Set<? extends TypeElement> set, final RoundEnvironment roundEnvironment) {
+        Observable.create(new ObservableOnSubscribe<Element>() {
+            @Override
+            public void subscribe(ObservableEmitter<Element> e) throws Exception {
+                for (Element element : roundEnvironment.getElementsAnnotatedWith(PointCut.class)) {
+                    e.onNext(element);
+                }
+            }
+        }).map(new Function<Element, PointCutParams>() {
+            @Override
+            public PointCutParams apply(Element element) throws Exception {
+                PointCut pointCut = element.getAnnotation(PointCut.class);
+                String[] classes = pointCut.importsPool();
+                AopAction action = pointCut.action();
+                String a = pointCut.pointName();
+                return new PointCutParams()
+                        .setAction(action)
+                        .setImports(classes)
+                        .setPointName(a);
+            }
+        }).subscribe(new Consumer<PointCutParams>() {
+            @Override
+            public void accept(PointCutParams pointCutParams) throws Exception {
+                try {
+                    FileWriter writer = new FileWriter(new File(SystemConfig.getAppHomeDir() + "/point_cut_config.txt"));
+                    writer.append(JSON.toJSONString(pointCutParams));
+                    writer.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-    private boolean isValid(Class fHttpClass, String targetThing, Element element) {
-        // 父元素必须是类，而不能是接口或枚举
-        if (element.getKind() != ElementKind.CLASS) {
-            error(element, "@%s %s may only be contained in classes. (%s.%s)",
-                    fHttpClass.getSimpleName(), targetThing, element.getSimpleName(),
-                    element.getSimpleName());
-            return false;
-        }
-        return true;
+
+        new LibsClient()
+                .readLibsDir(new File(SystemConfig.getAppHomeDir() + "/.idea/libraries"))
+                .writeToConfig();
+        return false;
     }
 
 

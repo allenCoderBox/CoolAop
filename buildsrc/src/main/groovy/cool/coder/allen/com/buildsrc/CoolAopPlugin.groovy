@@ -21,7 +21,8 @@ class CoolAopPlugin implements Plugin<Project> {
         def transform = new AopTransform(project);
         android.registerTransform(transform)
         project.logger.error "================自定义插件end！=========="
-//        systemInfo(project)
+        systemInfo(project)
+
 
     }
 

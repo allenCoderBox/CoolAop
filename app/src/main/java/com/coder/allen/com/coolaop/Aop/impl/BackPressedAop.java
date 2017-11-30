@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.widget.Toast;
 
 import com.coder.allen.com.coolaop.Aop.OnCreateWrapper;
-import com.coder.allen.com.coolaop.LockUtils;
 
 import bg.coder.allen.com.aopanimation.AopAction;
 import bg.coder.allen.com.aopanimation.PointCut;
@@ -14,8 +13,11 @@ import bg.coder.allen.com.aopanimation.PointCut;
  */
 
 
-@PointCut(point = "onBackPressed", action = AopAction.M_REPLACE,
-        imports = {BackPressedAop.class, LockUtils.class, OnCreateWrapper.class})
+@PointCut(pointName = "onBackPressed", action = AopAction.M_REPLACE, importsPool = {
+        "com.coder.allen.com.coolaop.LockUtils",
+        "com.coder.allen.com.coolaop.Aop.impl.BackPressedAop",
+        "com.coder.allen.com.coolaop.Aop.OnCreateWrapper"
+})
 public class BackPressedAop extends OnCreateWrapper {
     @Override
     public void excute() {
