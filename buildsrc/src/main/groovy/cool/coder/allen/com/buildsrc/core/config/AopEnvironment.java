@@ -39,7 +39,7 @@ public class AopEnvironment {
         this.project = project;
         this.appDir = project.getRootDir().getAbsolutePath();
         this.buildDir = project.getBuildDir().getAbsolutePath();
-        this.userHome = "/Users/husongzhen";
+        this.userHome = System.getProperty("user.home");
         CLogger.initLog();
         xMlClint = new XMlClint();
         xMlClint.ideaLibs();
