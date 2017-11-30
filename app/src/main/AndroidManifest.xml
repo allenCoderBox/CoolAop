@@ -19,6 +19,8 @@
 
 
         <activity android:name="com.coder.allen.com.coolaop.OtherActivity" />
+
+
     </application>
 
 </manifest>
