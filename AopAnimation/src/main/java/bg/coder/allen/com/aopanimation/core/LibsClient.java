@@ -7,7 +7,10 @@ import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +30,8 @@ import io.reactivex.functions.Predicate;
 
 public class LibsClient {
 
+
+    private String configPath = SystemConfig.getAppHomeDir() + "/libs_config.txt";
 
     private List<String> stringList = new ArrayList<>();
 
@@ -74,20 +79,58 @@ public class LibsClient {
                 stringList.add(s);
             }
         });
+        return this;
+    }
 
+
+    public LibsClient writeToConfig() {
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(new File(configPath));
+            writer.write(JSON.toJSONString(stringList));
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         return this;
     }
 
 
-    public void writeToConfig() {
+    public List<String> readFromConfig() {
+        BufferedReader reader = null;
         try {
-            FileWriter writer = new FileWriter(new File(SystemConfig.getAppHomeDir() + "/libs_config.txt"));
-            writer.write(JSON.toJSONString(stringList));
-            writer.flush();
+            reader = new BufferedReader(new FileReader(configPath));
+            StringBuffer buffer = new StringBuffer();
+            String ch;
+
+            while ((ch = reader.readLine()) != null) {
+                buffer.append(ch);
+            }
+            List<String> libs = JSON.parseArray(buffer.toString(), String.class);
+            return libs;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+        return null;
     }
 
 

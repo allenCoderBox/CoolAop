@@ -5,7 +5,7 @@ import org.gradle.api.Project;
 import java.util.List;
 
 import cool.coder.allen.com.buildsrc.core.utils.CLogger;
-import cool.coder.allen.com.buildsrc.core.xml.XMlClint;
+//import cool.coder.allen.com.buildsrc.core.xml.XMlClint;
 
 /**
  * Created by husongzhen on 17/11/29.
@@ -19,7 +19,7 @@ public class AopEnvironment {
     private String buildDir;
 
     private String userHome;
-    private XMlClint xMlClint;
+//    private XMlClint xMlClint;
 
 
     private AopEnvironment() {
@@ -41,8 +41,8 @@ public class AopEnvironment {
         this.buildDir = project.getBuildDir().getAbsolutePath();
         this.userHome = System.getProperty("user.home");
         CLogger.initLog();
-        xMlClint = new XMlClint();
-        xMlClint.ideaLibs();
+//        xMlClint = new XMlClint();
+//        xMlClint.ideaLibs();
     }
 
     public String getAppDir() {
@@ -65,7 +65,7 @@ public class AopEnvironment {
     }
 
 
-    public List<String> getDepLibdir() {
-        return xMlClint.getStringList();
-    }
+//    public List<String> getDepLibdir() {
+//        return xMlClint.getStringList();
+//    }
 }

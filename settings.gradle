@@ -1,1 +1,1 @@
-include ':app', ':buildsrc', ':AopComprecess', ':AopAnimation'
+include ':app', ':buildsrc', ':AopAnimation',':AopComprecess'

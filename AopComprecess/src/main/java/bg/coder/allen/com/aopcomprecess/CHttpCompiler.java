@@ -32,6 +32,8 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
+import java.util.List;
+
 /**
  * 作者：husongzhen on 17/9/30 10:17
  * 邮箱：husongzhen@musikid.com
@@ -87,11 +89,11 @@ public class CHttpCompiler extends AbstractProcessor {
                 }
             }
         });
-
-
-        new LibsClient()
+        LibsClient libsClient = new LibsClient()
                 .readLibsDir(new File(SystemConfig.getAppHomeDir() + "/.idea/libraries"))
                 .writeToConfig();
+        List<String> libs = libsClient.readFromConfig();
+//       error(null, libs.toString());
         return false;
     }
 
