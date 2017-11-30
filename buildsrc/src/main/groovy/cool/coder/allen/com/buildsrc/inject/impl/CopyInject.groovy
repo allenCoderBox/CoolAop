@@ -1,6 +1,5 @@
 package cool.coder.allen.com.buildsrc.inject.impl
 
-import cool.coder.allen.com.buildsrc.Utils
 import cool.coder.allen.com.buildsrc.inject.StubInject
 import javassist.CtClass
 import javassist.CtMethod
@@ -54,17 +53,6 @@ public class CopyInject extends StubInject {
                 .append("if (LockUtils.isLockOpen()) {return;}")
                 .append("}")
         return stringBuffer.toString()
-    }
-
-
-    @Override
-    String getClassName(String filePath) {
-        Utils.getClassName(filePath, packageName)
-    }
-
-    @Override
-    boolean isInMyPackage(String filePath) {
-        Utils.isInMyPackage(filePath, packageName)
     }
 
 

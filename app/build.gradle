@@ -34,7 +34,8 @@ dependencies {
     compile 'com.android.support.test.espresso:espresso-core:2.2.2'
     implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
     implementation files('libs/JoSQL-2.2.jar')
-    compile(name: 'downloader-release', ext: 'aar')
+    implementation project(':AopAnimation')
+    annotationProcessor files('libs/AopComprecess.jar')
 }
 
 

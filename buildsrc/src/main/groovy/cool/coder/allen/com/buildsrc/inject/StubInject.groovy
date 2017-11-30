@@ -1,5 +1,6 @@
 package cool.coder.allen.com.buildsrc.inject
 
+import cool.coder.allen.com.buildsrc.Utils
 import cool.coder.allen.com.buildsrc.core.config.AopEnvironment
 import cool.coder.allen.com.buildsrc.core.utils.JarZipUtil
 import javassist.ClassPool
@@ -102,8 +103,12 @@ abstract class StubInject implements UIClassInject {
     abstract void importClass()
 
 
-    abstract String getClassName(String filePath)
+    public String getClassName(String filePath) {
+        return Utils.getClassName(filePath, packageName);
+    }
 
-    abstract boolean isInMyPackage(String filePath)
+    public boolean isInMyPackage(String filePath) {
+        return Utils.isInMyPackage(filePath, packageName);
+    }
 
 }

@@ -1,18 +1,32 @@
 package cool.coder.allen.com.buildsrc.inject.impl
 
-import cool.coder.allen.com.buildsrc.Utils
 import cool.coder.allen.com.buildsrc.inject.StubInject
 import javassist.CtClass
 import javassist.CtMethod
 import javassist.CtNewMethod
-
 /**
+ *
+ *
+ *
+ *
+ *
+ * 一般我们在生成类的时候，都有哪些方案
+ * 在方法前后插入代码
+ * 给现有类添加新方法
+ *
+ *
+ *
  * Created by husongzhen on 17/11/28.
  */
 
+
+
+
+
+
+
+
 public class AopInject extends StubInject {
-
-
 
 
     @Override
@@ -46,9 +60,6 @@ public class AopInject extends StubInject {
     }
 
 
-
-
-
     @Override
     public void importClass() {
         pool.importPackage("com.coder.allen.com.coolaop.LockUtils");
@@ -56,13 +67,4 @@ public class AopInject extends StubInject {
         pool.importPackage("com.coder.allen.com.coolaop.Aop.OnCreateWrapper");
     }
 
-    @Override
-    public String getClassName(String filePath) {
-        return Utils.getClassName(filePath, packageName);
-    }
-
-    @Override
-    public boolean isInMyPackage(String filePath) {
-        return Utils.isInMyPackage(filePath, packageName);
-    }
 }
