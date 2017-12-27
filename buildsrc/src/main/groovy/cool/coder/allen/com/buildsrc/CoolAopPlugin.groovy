@@ -13,17 +13,12 @@ import org.gradle.api.Project
 class CoolAopPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
-
-
         AopEnvironment.news().init(project)
         project.logger.error "================自定义插件start！=========="
         def android = project.extensions.findByType(AppExtension)
         def transform = new AopTransform(project);
         android.registerTransform(transform)
         project.logger.error "================自定义插件end！=========="
-//        systemInfo(project)
-
-
     }
 
     private void systemInfo(Project project) {

@@ -63,7 +63,7 @@ class AopTransform extends Transform {
                     FileUtils.copyFile(it.file, output)
                 }
             } catch (Exception e) {
-                project.logger.err e.getMessage()
+                project.logger.error(e.getMessage())
             }
             //对类型为“文件夹”的input进行遍历
             input.directoryInputs.each { DirectoryInput directoryInput ->

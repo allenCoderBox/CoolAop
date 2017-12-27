@@ -35,7 +35,6 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
     implementation files('libs/JoSQL-2.2.jar')
     implementation project(':AopAnimation')
-    annotationProcessor project(':AopComprecess')
 }
 
 

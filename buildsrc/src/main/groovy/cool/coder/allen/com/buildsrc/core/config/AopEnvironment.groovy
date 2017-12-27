@@ -1,17 +1,14 @@
-package cool.coder.allen.com.buildsrc.core.config;
+package cool.coder.allen.com.buildsrc.core.config
 
-import org.gradle.api.Project;
-
-import java.util.List;
-
-import cool.coder.allen.com.buildsrc.core.utils.CLogger;
-//import cool.coder.allen.com.buildsrc.core.xml.XMlClint;
+import cool.coder.allen.com.buildsrc.core.utils.CLogger
+import cool.coder.allen.com.buildsrc.core.xml.XMlClint
+import org.gradle.api.Project
 
 /**
  * Created by husongzhen on 17/11/29.
  */
 
-public class AopEnvironment {
+class AopEnvironment {
 
 
     private Project project;
@@ -19,14 +16,14 @@ public class AopEnvironment {
     private String buildDir;
 
     private String userHome;
-//    private XMlClint xMlClint;
+    private XMlClint xMlClint;
 
 
     private AopEnvironment() {
     }
 
 
-    public static AopEnvironment news() {
+    static AopEnvironment news() {
         return Clazz.environment;
     }
 
@@ -35,37 +32,41 @@ public class AopEnvironment {
         private static final AopEnvironment environment = new AopEnvironment();
     }
 
-    public void init(Project project) {
+    void init() {
+        init();
+    }
+
+    void init(Project project) {
         this.project = project;
         this.appDir = project.getRootDir().getAbsolutePath();
         this.buildDir = project.getBuildDir().getAbsolutePath();
         this.userHome = System.getProperty("user.home");
         CLogger.initLog();
-//        xMlClint = new XMlClint();
-//        xMlClint.ideaLibs();
+        xMlClint = new XMlClint();
+        xMlClint.ideaLibs();
     }
 
-    public String getAppDir() {
+    String getAppDir() {
         return appDir;
     }
 
 
-    public String getUserHome() {
+    String getUserHome() {
         return userHome;
     }
 
 
-    public String getBuildDir() {
+    String getBuildDir() {
         return buildDir;
     }
 
 
-    public Project getProject() {
+    Project getProject() {
         return project;
     }
 
 
-//    public List<String> getDepLibdir() {
-//        return xMlClint.getStringList();
-//    }
+    List<String> getDepLibdir() {
+        return xMlClint.getStringList();
+    }
 }
