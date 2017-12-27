@@ -15,23 +15,23 @@ class AopTransform extends Transform {
 
     private Project project;
 
-    public AopTransform(Project project) {
+    AopTransform(Project project) {
         this.project = project;
         ConfigManager.parseConfig(project)
     }
 
     @Override
-    public String getName() {
+    String getName() {
         return "AopTransform";
     }
 
     @Override
-    public Set<QualifiedContent.ContentType> getInputTypes() {
+    Set<QualifiedContent.ContentType> getInputTypes() {
         return Sets.immutableEnumSet(QualifiedContent.DefaultContentType.CLASSES)
     }
 
     @Override
-    public Set<? super QualifiedContent.Scope> getScopes() {
+    Set<? super QualifiedContent.Scope> getScopes() {
         return Sets.immutableEnumSet(QualifiedContent.Scope.PROJECT,
                 QualifiedContent.Scope.PROJECT_LOCAL_DEPS,
                 QualifiedContent.Scope.SUB_PROJECTS,
@@ -40,7 +40,7 @@ class AopTransform extends Transform {
     }
 
     @Override
-    public boolean isIncremental() {
+    boolean isIncremental() {
         return false;
     }
 

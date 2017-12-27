@@ -5,7 +5,6 @@ import cool.coder.allen.com.buildsrc.core.config.AopEnvironment
 import cool.coder.allen.com.buildsrc.core.utils.CLogger
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-
 /**
  * Created by husongzhen on 17/11/24.
  */

@@ -1,10 +1,12 @@
 package cool.coder.allen.com.buildsrc.inject
 
 import cool.coder.allen.com.buildsrc.Utils
+import cool.coder.allen.com.buildsrc.core.config.AopEnvironment
 import cool.coder.allen.com.buildsrc.core.utils.JarZipUtil
 import javassist.ClassPool
 import javassist.CtClass
 import javassist.NotFoundException
+import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 /**
  * Created by husongzhen on 17/11/24.
@@ -67,10 +69,9 @@ abstract class StubInject implements UIClassInject {
         pool.appendClassPath(path)
         //project.android.bootClasspath 加入android.jar，否则找不到android相关的所有类
         pool.appendClassPath(project.android.bootClasspath[0].toString());
-//        AopEnvironment.news().getDepLibdir().each { dir ->
-//            CLogger.create(getClass().getName()).info(dir)
-//            pool.appendClassPath(dir)
-//        }
+        AopEnvironment.news().getDepLibdir().each { dir ->
+            pool.appendClassPath(dir)
+        }
         importClass()
     }
 

@@ -4,6 +4,7 @@ import cool.coder.allen.com.buildsrc.inject.StubInject
 import javassist.CtClass
 import javassist.CtMethod
 import javassist.CtNewMethod
+
 /**
  *
  *
@@ -20,17 +21,11 @@ import javassist.CtNewMethod
  */
 
 
-
-
-
-
-
-
-public class AopInject extends StubInject {
+ class AopInject extends StubInject {
 
 
     @Override
-    public void injectClass(CtClass c, String filePath, String path) {
+     void injectClass(CtClass c, String filePath, String path) {
         CtClass superClass = c.getSuperclass();
         if (superClass.name.contains("OnCreateWrapper")) {
             return
@@ -61,7 +56,7 @@ public class AopInject extends StubInject {
 
 
     @Override
-    public void importClass() {
+     void importClass() {
         pool.importPackage("com.coder.allen.com.coolaop.LockUtils");
         pool.importPackage("com.coder.allen.com.coolaop.Aop.impl.BackPressedAop");
         pool.importPackage("com.coder.allen.com.coolaop.Aop.OnCreateWrapper");
