@@ -48,7 +48,7 @@ import javassist.CtNewMethod
 
     private String getProxyMethodBody(String methodName) {
         StringBuffer body = new StringBuffer();
-        body.append("new BackPressedAop().setParams(this, \"" + methodName + "\")")
+        body.append("new com.coder.allen.com.coolaop.Aop.impl.BackPressedAop().setParams(this, \"" + methodName + "\")")
         body.append(".setObjects(\$args)")
         body.append(".excute(); ")
         return body.toString();
@@ -57,9 +57,7 @@ import javassist.CtNewMethod
 
     @Override
      void importClass() {
-        pool.importPackage("com.coder.allen.com.coolaop.LockUtils");
-        pool.importPackage("com.coder.allen.com.coolaop.Aop.impl.BackPressedAop");
-        pool.importPackage("com.coder.allen.com.coolaop.Aop.OnCreateWrapper");
+//        pool.importPackage("com.coder.allen.com.coolaop.Aop.impl.BackPressedAop");
     }
 
 }

@@ -2,7 +2,6 @@ package com.coder.allen.com.coolaop;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.coder.allen.com.coolaop.Aop.impl.BackPressedAop;
 
@@ -23,11 +22,6 @@ public class OtherActivity extends AppCompatActivity {
 
     private void wraaper(String name) {
         new BackPressedAop().setParams(this, "wraaper").setObjects(name).excute();
-    }
-
-
-    public void wraaper$impl(String name) {
-        Toast.makeText(this, "name", Toast.LENGTH_SHORT).show();
     }
 
 
