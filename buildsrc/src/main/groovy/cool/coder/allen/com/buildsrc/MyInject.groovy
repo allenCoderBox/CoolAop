@@ -16,5 +16,10 @@ class MyInject {
         inject.injectDir(path, project)
     }
 
+    static void injectJar(String path, String packageName, Project project) throws NotFoundException {
+        AopInject inject = new AopInject()
+        inject.injectJar(path, project)
+    }
+
 
 }

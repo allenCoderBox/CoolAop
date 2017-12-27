@@ -8,6 +8,7 @@ import javassist.CtClass
 import javassist.NotFoundException
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
+
 /**
  * Created by husongzhen on 17/11/24.
  */
@@ -39,6 +40,8 @@ abstract class StubInject implements UIClassInject {
                     }
                 }
             }
+        } else if (true) {
+            //todo
         }
     }
 
@@ -67,7 +70,6 @@ abstract class StubInject implements UIClassInject {
 
     private void loadPool(String path) {
         pool.appendClassPath(path)
-        //project.android.bootClasspath 加入android.jar，否则找不到android相关的所有类
         pool.appendClassPath(project.android.bootClasspath[0].toString());
         AopEnvironment.news().getDepLibdir().each { dir ->
             pool.appendClassPath(dir)
