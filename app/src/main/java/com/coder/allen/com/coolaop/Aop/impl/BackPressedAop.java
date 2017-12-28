@@ -6,7 +6,6 @@ import android.widget.Toast;
 import com.coder.allen.com.coolaop.Aop.OnCreateWrapper;
 import com.coder.allen.com.coolaop.LockUtils;
 
-import bg.coder.allen.com.aopanimation.AopAction;
 import bg.coder.allen.com.aopanimation.PointCut;
 
 /**
@@ -14,12 +13,14 @@ import bg.coder.allen.com.aopanimation.PointCut;
  */
 
 
-@PointCut(pointName = "onBackPressed", action = AopAction.M_REPLACE, importsPool = {})
+
 public class BackPressedAop extends OnCreateWrapper {
+
+    @PointCut(pointName = "onBackPressed")
     @Override
     public void excute() {
         Activity activity = (Activity) getRealObj();
-        if (LockUtils.isOpen()){
+        if (LockUtils.isOpen()) {
             Toast.makeText(activity, "before", Toast.LENGTH_SHORT).show();
         }
         this.proesss();

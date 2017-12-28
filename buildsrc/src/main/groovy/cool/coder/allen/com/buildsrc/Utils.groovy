@@ -26,4 +26,9 @@ class Utils {
     private static int indexPackage(String filePath, String packageName) {
         filePath.indexOf(packageName)
     }
+
+
+    static boolean checkPath(final String filePath) {
+        return filePath.endsWith(".class") && !filePath.contains('R$') && !filePath.contains('$') && !filePath.contains('R.class') && !filePath.contains("BuildConfig.class")
+    }
 }

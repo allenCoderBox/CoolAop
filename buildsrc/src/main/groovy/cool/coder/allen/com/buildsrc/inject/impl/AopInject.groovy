@@ -1,9 +1,18 @@
 package cool.coder.allen.com.buildsrc.inject.impl
 
+import cool.coder.allen.com.buildsrc.core.model.AopHelper
+import cool.coder.allen.com.buildsrc.core.model.MethodFilter
+import cool.coder.allen.com.buildsrc.core.utils.CLogger
 import cool.coder.allen.com.buildsrc.inject.StubInject
+import cool.coder.allen.com.buildsrc.inject.handle.InjectFileHanlder
 import javassist.CtClass
 import javassist.CtMethod
 import javassist.CtNewMethod
+import javassist.bytecode.AnnotationsAttribute
+import javassist.bytecode.MethodInfo
+import javassist.bytecode.annotation.StringMemberValue
+
+import java.lang.annotation.Annotation
 
 /**
  *
@@ -21,11 +30,21 @@ import javassist.CtNewMethod
  */
 
 
- class AopInject extends StubInject {
+class AopInject extends StubInject {
+    private AopHelper aopHelper
 
 
-    @Override
-     void injectClass(CtClass c, String filePath, String path) {
+    void injectClass(CtClass c, String filePath, String path) {
+
+
+        Annotation pointCut = c.getAnnotation(AopHelper.pointCut)
+        if (pointCut != null) {
+
+        }
+
+
+
+
         CtClass superClass = c.getSuperclass();
         if (superClass.name.contains("OnCreateWrapper")) {
             return
@@ -37,7 +56,7 @@ import javassist.CtNewMethod
         for (CtMethod backPresed : backPreseds) {
             String methodName = backPresed.name;
             String newMethodName = methodName + "\$impl"
-            project.logger.error("merge method : " + methodName)
+            CLogger.defalutLog.info("merge method : " + methodName)
             CtMethod newMethod = CtNewMethod.copy(backPresed, newMethodName, c, null);
             c.addMethod(newMethod)
             backPresed.setBody(getProxyMethodBody(methodName))
@@ -46,17 +65,67 @@ import javassist.CtNewMethod
         writeFile(c, path)
     }
 
-    private String getProxyMethodBody(String methodName) {
+    private String getProxyMethodBody(String clazz, String methodName) {
         StringBuffer body = new StringBuffer();
-        body.append("new com.coder.allen.com.coolaop.Aop.impl.BackPressedAop().setParams(this, \"" + methodName + "\")")
+        body.append("new " + clazz + "().setParams(this, \"" + methodName + "\")")
         body.append(".setObjects(\$args)")
         body.append(".excute(); ")
         return body.toString();
     }
 
+    @Override
+    void injectAction(String path) {
+        aopHelper = new AopHelper()
+        loadPool(path)
+        injectFile(path, new InjectFileHanlder() {
+            @Override
+            void injectClass(CtClass c, String filePath, String rootPath) {
+                c.getDeclaredMethods().each { CtMethod method ->
+                    method.getAnnotations().each { Annotation annotation ->
+                        if (annotation.annotationType().canonicalName.equals(AopHelper.pointCut)) {
+                            MethodInfo methodInfo = method.getMethodInfo()
+                            AnnotationsAttribute attribute = methodInfo.getAttribute(AnnotationsAttribute.visibleTag)
+                            //获取注解属性
+                            javassist.bytecode.annotation.Annotation mAnnotation = attribute.getAnnotation(annotation.annotationType().canonicalName);
+                            //获取注解
+                            String pointName = ((StringMemberValue) mAnnotation.getMemberValue("pointName")).value
+                            aopHelper.put(new MethodFilter().setClazz(c.name).setFiterMethod(pointName))
+                        }
+                    }
+                }
+            }
+        })
+
+
+
+        injectFile(path, new InjectFileHanlder() {
+            @Override
+            void injectClass(CtClass c, String filePath, String rootPath) {
+                if (aopHelper.isContainFilter(c.name)) {
+                    return
+                }
+
+                aopHelper.getFilterList().each { MethodFilter filter ->
+
+                    CtMethod[] backPreseds = c.getDeclaredMethods(filter.getFiterMethod())
+                    for (CtMethod backPresed : backPreseds) {
+                        String methodName = backPresed.name;
+                        String newMethodName = methodName + "\$impl"
+                        CtMethod newMethod = CtNewMethod.copy(backPresed, newMethodName, c, null);
+                        c.addMethod(newMethod)
+                        backPresed.setBody(getProxyMethodBody(filter.getClazz(), methodName))
+                        CLogger.defalutLog.info("merge method : " + c.name + "." + methodName)
+                    }
+                    writeFile(c, path)
+                }
+            }
+        })
+
+
+    }
 
     @Override
-     void importClass() {
+    void importClass() {
 //        pool.importPackage("com.coder.allen.com.coolaop.Aop.impl.BackPressedAop");
     }
 

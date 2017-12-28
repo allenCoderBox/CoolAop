@@ -1,6 +1,7 @@
 package cool.coder.allen.com.buildsrc.inject.impl
 
 import cool.coder.allen.com.buildsrc.inject.StubInject
+import cool.coder.allen.com.buildsrc.inject.handle.InjectFileHanlder
 import javassist.CtClass
 import javassist.CtMethod
 import javassist.CtNewMethod
@@ -14,8 +15,21 @@ public class CopyInject extends StubInject {
 
     List<String> sets = Arrays.asList("com.yumingchuan.lib.base.BaseActivity", "android.support.v7.app.AppCompatActivity")
 
+
     @Override
-    void injectClass(CtClass c, String filePath, String path) {
+    void injectAction(final String path) {
+        loadPool(path)
+        injectFile(path, new InjectFileHanlder() {
+            @Override
+            void injectClass(CtClass c, String filePath, final String dirpath) {
+                excuteClass(c, filePath, dirpath)
+            }
+        })
+
+    }
+
+
+    void excuteClass(CtClass c, String filePath, String path) {
         CtMethod backPresed
         try {
             backPresed = c.getDeclaredMethod("onBackPressed")

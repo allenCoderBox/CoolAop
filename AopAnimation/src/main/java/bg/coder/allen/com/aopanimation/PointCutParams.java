@@ -6,7 +6,6 @@ package bg.coder.allen.com.aopanimation;
 
 public class PointCutParams {
     private AopAction action;
-    private String[] imports;
     private String pointName;
 
     public AopAction getAction() {
@@ -18,14 +17,6 @@ public class PointCutParams {
         return this;
     }
 
-    public String[] getImports() {
-        return imports;
-    }
-
-    public PointCutParams setImports(String[] imports) {
-        this.imports = imports;
-        return this;
-    }
 
     public String getPointName() {
         return pointName;
