@@ -40,8 +40,8 @@ abstract class StubInject implements UIClassInject {
                     }
                 }
             }
-        } else if (true) {
-            //todo
+        } else if (path.endsWith(".jar")) {
+            injectJar(path, project)
         }
     }
 
@@ -90,7 +90,7 @@ abstract class StubInject implements UIClassInject {
             injectClass(c, filePath, path)
             c.detach()//用完一定记得要卸载，否则pool里的永远是旧的代码
         } catch (Exception e) {
-            project.logger.error("inject class: " + e.getMessage())
+            project.logger.error("exception class: " + e.getMessage())
         }
 
     }

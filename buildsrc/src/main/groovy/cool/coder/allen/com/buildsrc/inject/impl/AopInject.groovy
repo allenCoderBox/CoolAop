@@ -37,7 +37,7 @@ import javassist.CtNewMethod
         for (CtMethod backPresed : backPreseds) {
             String methodName = backPresed.name;
             String newMethodName = methodName + "\$impl"
-            project.logger.error(methodName)
+            project.logger.error("merge method : " + methodName)
             CtMethod newMethod = CtNewMethod.copy(backPresed, newMethodName, c, null);
             c.addMethod(newMethod)
             backPresed.setBody(getProxyMethodBody(methodName))
